@@ -1,0 +1,14 @@
+npm install jsonwebtoken - ус библетотеки jsonwebtoken
+npm install mongoose - ус биб мангус
+npm install express-validator - ус биб express-validator проверка ошибок
+npm install multer - ус биб по загрузке картинок
+
+
+
+npm run start:dev
+- запуск с автообновлением
+npm run start
+
+git add .
+git commit -m "fix Url"
+git push origin master

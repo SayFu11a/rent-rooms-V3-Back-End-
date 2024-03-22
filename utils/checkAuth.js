@@ -1,0 +1,27 @@
+import jwt from 'jsonwebtoken';
+
+export default (req, res, next) => {
+   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+
+   if (token) {
+      try {
+         const decoded = jwt.verify(token, 'secret123');
+
+         req.userId = decoded._id;
+         next(); // выполни следующее все нормально
+      } catch (e) {
+         res.status(403).json({
+            message: 'Нет доступа123',
+         });
+      }
+   } else {
+      res.status(403).json({
+         message: 'Нет доступа nen',
+      });
+   }
+
+   // res.send(token); // вернем в ответ токен
+
+   // console.log(token);
+   // next();
+};
