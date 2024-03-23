@@ -1,6 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
+import fs from 'fs';
+import { config } from 'dotenv';
+config(); // не было
+
 import cors from 'cors';
 
 import multer from 'multer';
@@ -15,9 +19,7 @@ import { UserController, PostController } from './controllers/index.js'; // вс
 // import User from './models/User.js';
 
 mongoose
-   .connect(
-      'mongodb+srv://admin1:wwwwww@cluster0.okaofvn.mongodb.net/blog?retryWrites=true&w=majority',
-   )
+   .connect(process.env.MONGODB_URI)
    .then(() => console.log('DB ok'))
    .catch((err) => console.log('DB error', err));
 
@@ -25,6 +27,9 @@ const app = express();
 
 const storage = multer.diskStorage({
    destination: (_, __, cb) => {
+      if (!fs.existsSync('uploads')) {
+         fs.mkdirSync('uploads');
+      }
       cb(null, 'uploads');
    },
    filename: (_, file, cb) => {
@@ -62,7 +67,7 @@ app.patch(
    PostController.update,
 );
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
    if (err) {
       return console.log(err);
    }
